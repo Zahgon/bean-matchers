@@ -1,28 +1,25 @@
 package com.google.code.beanmatchers;
 
 import static java.util.Arrays.asList;
-
 import java.util.List;
 import org.hamcrest.Description;
 
 public class HasValidBeanHashCodeForMatcher<T> extends AbstractBeanHashCodeMatcher<T> {
-  private final List<String> properties;
 
-  HasValidBeanHashCodeForMatcher(TypeBasedValueGenerator valueGenerator, String... properties) {
-    super(valueGenerator);
-    this.properties = asList(properties);
-  }
+    private final List<String> properties;
 
-  @Override
-  protected boolean matchesSafely(Class<T> beanType, Description mismatchDescription) {
-    return super.hashCodeIsInfluencedByProperties(
-        new JavaBean(beanType), properties, mismatchDescription);
-  }
+    HasValidBeanHashCodeForMatcher(TypeBasedValueGenerator valueGenerator, String... properties) {
+        super(valueGenerator);
+        this.properties = asList(properties);
+    }
 
-  @Override
-  public void describeTo(Description description) {
-    description.appendText("bean with the properties ");
-    description.appendValue(properties);
-    description.appendText(" influencing hashCode");
-  }
+    @Override
+    protected boolean matchesSafely(Class<T> beanType, Description mismatchDescription) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public void describeTo(Description description) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

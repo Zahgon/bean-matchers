@@ -4,42 +4,22 @@ import java.lang.reflect.Modifier;
 
 class DefaultTypeBasedValueGenerator implements TypeBasedValueGenerator {
 
-  private final ValueGeneratorRepository valueGeneratorRepository;
-  private final TypeBasedValueGenerator nonFinalTypeBasedValueGenerator;
-  private final TypeBasedValueGenerator enumBasedValueGenerator;
-  private final TypeBasedValueGenerator arrayValueGenerator;
+    private final ValueGeneratorRepository valueGeneratorRepository;
 
-  public DefaultTypeBasedValueGenerator(ValueGeneratorRepository valueGeneratorRepository,
-                                        TypeBasedValueGenerator nonFinalTypeBasedValueGenerator,
-                                        TypeBasedValueGenerator enumBasedValueGenerator,
-                                        TypeBasedValueGenerator arrayValueGenerator) {
-    this.valueGeneratorRepository = valueGeneratorRepository;
-    this.nonFinalTypeBasedValueGenerator = nonFinalTypeBasedValueGenerator;
-    this.enumBasedValueGenerator = enumBasedValueGenerator;
-    this.arrayValueGenerator = arrayValueGenerator;
-  }
+    private final TypeBasedValueGenerator nonFinalTypeBasedValueGenerator;
 
-  public <T> T generate(Class<T> type) {
-    ValueGenerator<T> generator = valueGeneratorRepository.retrieveValueGenerator(type);
-    if (generator != null) {
-      return generator.generate();
+    private final TypeBasedValueGenerator enumBasedValueGenerator;
+
+    private final TypeBasedValueGenerator arrayValueGenerator;
+
+    public DefaultTypeBasedValueGenerator(ValueGeneratorRepository valueGeneratorRepository, TypeBasedValueGenerator nonFinalTypeBasedValueGenerator, TypeBasedValueGenerator enumBasedValueGenerator, TypeBasedValueGenerator arrayValueGenerator) {
+        this.valueGeneratorRepository = valueGeneratorRepository;
+        this.nonFinalTypeBasedValueGenerator = nonFinalTypeBasedValueGenerator;
+        this.enumBasedValueGenerator = enumBasedValueGenerator;
+        this.arrayValueGenerator = arrayValueGenerator;
     }
-    if (!Modifier.isFinal(type.getModifiers())) {
-      return nonFinalTypeBasedValueGenerator.generate(type);
+
+    public <T> T generate(Class<T> type) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    if (type.isEnum()) {
-      return enumBasedValueGenerator.generate(type);
-    }
-    if (type.isArray()) {
-      return arrayValueGenerator.generate(type);
-    }
-    throw new BeanMatchersException("Could not create a test value of type " + type.getName()
-        + ".\nPlease register a ValueGenerator to create the value:\n"
-        + "    BeanMatchers.registerValueGenerator(new ValueGenerator<" + type.getSimpleName()
-        + ">() {\n"
-        + "        public " + type.getSimpleName() + " generate() {\n"
-        + "            return null;  // Change to generate random instance\n"
-        + "        }\n"
-        + "    }, " + type.getSimpleName() + ".class);");
-  }
 }

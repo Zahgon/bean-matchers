@@ -4,69 +4,64 @@ import static com.google.code.beanmatchers.BeanOperations.instantiateBean;
 import static com.google.code.beanmatchers.BeanOperations.invokeGetter;
 import static com.google.code.beanmatchers.BeanOperations.invokeSetter;
 import static com.google.code.beanmatchers.BeanOperations.propertyDescriptors;
-
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
 class JavaBean {
 
-  private final Object targetBean;
-  private final PropertyDescriptor[] descriptors;
+    private final Object targetBean;
 
-  public JavaBean(Object targetBean) {
-    this.targetBean = targetBean;
-    descriptors = propertyDescriptors(targetBean);
-  }
+    private final PropertyDescriptor[] descriptors;
 
-  public JavaBean(Class targetBeanType) {
-    this(instantiateBean(targetBeanType));
-  }
-
-  public Class beanType() {
-    return targetBean.getClass();
-  }
-
-  public Class<?> propertyType(String propertyName) {
-    return descriptorForName(propertyName).getPropertyType();
-  }
-
-  public void setProperty(String propertyName, Object value) {
-    invokeSetter(targetBean, descriptorForName(propertyName), value);
-  }
-
-  public Object getProperty(String propertyName) {
-    return invokeGetter(targetBean, descriptorForName(propertyName));
-  }
-
-  private PropertyDescriptor descriptorForName(String propertyName) {
-    for (PropertyDescriptor propertyDescriptor : descriptors) {
-      if (propertyDescriptor.getName().equals(propertyName)) {
-        return propertyDescriptor;
-      }
+    public JavaBean(Object targetBean) {
+        this.targetBean = targetBean;
+        descriptors = propertyDescriptors(targetBean);
     }
-    throw new BeanMatchersException(
-        "No property named '" + propertyName + "' on bean " + targetBean);
-  }
 
-  public List<String> properties() {
-    return BeanOperations.properties(descriptors);
-  }
-
-  public String toString() {
-    return targetBean.toString();
-  }
-
-  @Override
-  public int hashCode() {
-    return targetBean.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    if (object instanceof JavaBean) {
-      return targetBean.equals(((JavaBean) object).targetBean);
-    } else {
-      return targetBean.equals(object);
+    public JavaBean(Class targetBeanType) {
+        this(instantiateBean(targetBeanType));
     }
-  }
+
+    public Class beanType() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Class<?> propertyType(String propertyName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public void setProperty(String propertyName, Object value) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public Object getProperty(String propertyName) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    private PropertyDescriptor descriptorForName(String propertyName) {
+        for (PropertyDescriptor propertyDescriptor : descriptors) {
+            if (propertyDescriptor.getName().equals(propertyName)) {
+                return propertyDescriptor;
+            }
+        }
+        throw new BeanMatchersException("No property named '" + propertyName + "' on bean " + targetBean);
+    }
+
+    public List<String> properties() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public String toString() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }
